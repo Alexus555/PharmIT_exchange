@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
 
@@ -70,7 +66,7 @@ namespace PharmITExchange
             Logger.Log.Info($"Data was sent successfully!");
         }
 
-        public void GetMissedData()
+        public string GetMissedData()
         {
             Client.BaseUrl = new Uri($"{ApiUrl}/values");
             SetRequestHeaders();
@@ -82,7 +78,9 @@ namespace PharmITExchange
                 throw new Exception($"{(int)response.StatusCode} - {response.StatusDescription}");
             }
 
-            Logger.Log.Info($"Data was sent successfully!");
+            Logger.Log.Info($"Missed data was received successfully!");
+
+            return response.Content;
         }
 
         public void SendData(DataFile dataFile)
@@ -127,11 +125,15 @@ namespace PharmITExchange
 
             if (result)
             {
-                Logger.Log.Info($"Data commited with success! Actual row count: {rowCount}, row count commited: {rowCountCommited}");
+                Logger.
+                    Log.
+                    Info($"Data commited with success! Actual row count: {rowCount}, row count commited: {rowCountCommited}");
             }
             else
             {
-                Logger.Log.Warn($"Data must be resended! Actual row count: {rowCount}, row count commited: {rowCountCommited}");
+                Logger.
+                    Log.
+                    Warn($"Data must be resended! Actual row count: {rowCount}, row count commited: {rowCountCommited}");
             }
 
             return result;

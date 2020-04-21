@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RestSharp;
 using Newtonsoft.Json;
 using System.IO;
 
@@ -21,9 +16,11 @@ namespace PharmITExchange
             string appUri = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
 
             UriBuilder uri = new UriBuilder(appUri);
-            string appPath = Uri.UnescapeDataString(uri.Path);
-            string dataPath = Path.GetDirectoryName(appPath) + @"\Data\";
-            string backupPath = Path.GetDirectoryName(appPath) + @"\Backup\";
+            string appPath =
+                Path.GetDirectoryName(
+                    Uri.UnescapeDataString(uri.Path));
+            string dataPath = appPath + @"\Data\";
+            string backupPath = appPath + @"\Backup\";
 
             string apiUrl = "";
             string apiAuthString = "";
@@ -39,9 +36,9 @@ namespace PharmITExchange
                     dirInfo.Create();
                 }
 
-                string filesMask = dataPath + "1c*.json";
+                string filesMask = "1c*.json";
 
-                var files = Directory.GetFiles(filesMask);
+                var files = Directory.GetFiles(dataPath, filesMask);
 
                 var dataSender = new PharmITDataSender(apiUrl, apiAuthString);
 
@@ -57,7 +54,22 @@ namespace PharmITExchange
                 foreach (var fileName in files)
                 {
                     var file = new FileInfo(fileName);
+                    var backupFile = new FileInfo(backupPath + file.Name);
+                    if (backupFile.Exists)
+                        backupFile.Delete();
                     file.MoveTo(backupPath + file.Name);
+                }
+
+                var missedData = dataSender.GetMissedData();
+                var missedDataFile = dataPath + @"MissedData.json";
+
+                using (StreamWriter sr = new StreamWriter(missedDataFile, false))
+                {
+
+                    sr.Write(missedData);
+
+                    sr.Flush();
+
                 }
 
             }

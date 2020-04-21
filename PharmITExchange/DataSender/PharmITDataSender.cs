@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.IO;
 
@@ -10,8 +6,8 @@ namespace PharmITExchange
 {
     public class PharmITDataSender
     {
-        string ApiUrl;
-        string ApiAuthString;
+        private string ApiUrl;
+        private string ApiAuthString;
 
         public PharmITDataSender(string apiUrl, string apiAuthString)
         {
@@ -19,18 +15,6 @@ namespace PharmITExchange
             ApiAuthString = apiAuthString;
         }
 
-        private IEnumerable<FileInfo> GetFiles(string filesMask)
-        {
-            List<FileInfo> files = new List<FileInfo>();
-
-            var fileNames = Directory.GetFiles(filesMask);
-            foreach (var fileName in fileNames)
-            {
-                files.Add(new FileInfo(fileName));
-            }
-
-            return files;
-        }
 
         private bool SendFile(string file)
         {
@@ -85,11 +69,17 @@ namespace PharmITExchange
                 }
                 catch (Exception e)
                 {
-                    Logger.Log.Warn($"File {file} wasn't sent due to error: {e.Message}");
+                    Logger.Log.Error($"File {file} wasn't sent due to error: {e.Message}");
                 }
             }
 
 
+        }
+
+        public string GetMissedData()
+        {
+            PharmITConnector connector = new PharmITConnector(ApiUrl, ApiAuthString);
+            return connector.GetMissedData();
         }
     }
 }
