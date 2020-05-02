@@ -56,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\PharmITException.cs" />
     <Compile Include="Data\DataFile.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Data\PageData.cs" />
