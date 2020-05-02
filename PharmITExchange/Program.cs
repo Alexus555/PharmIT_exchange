@@ -82,8 +82,6 @@ namespace PharmITExchange
                 Logger.Log.Error(e.Message, e);
             }
 
-            //Console.ReadKey();
-
             Logger.Log.Info("End application");
         }
 
