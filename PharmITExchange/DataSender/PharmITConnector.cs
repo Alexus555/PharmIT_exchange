@@ -6,10 +6,10 @@ namespace PharmITExchange
 {
     public class PharmITConnector
     {
-        RestClient Client;
-        RestRequest Request;
-        string ApiUrl;
-        string ApiAuthString;
+        readonly RestClient Client;
+        readonly RestRequest Request;
+        readonly string ApiUrl;
+        readonly string ApiAuthString;
 
         public PharmITConnector(string apiUrl, string apiAuthString)
         {
@@ -92,7 +92,9 @@ namespace PharmITExchange
             foreach (var page in dataFile.Pages)
             {
                 foreach (var obj in page.Page)
+                {
                     obj.FileId = fileId;
+                }
 
                 string data = JsonConvert.SerializeObject(page.Page);
 
@@ -102,7 +104,7 @@ namespace PharmITExchange
             CommitData(fileId, rowCount);
         }
 
-        private bool CommitData(string fileId, int rowCount)
+        private void CommitData(string fileId, int rowCount)
         {
             bool result = false;
 
@@ -136,7 +138,6 @@ namespace PharmITExchange
                     Warn($"Data must be resended! Actual row count: {rowCount}, row count commited: {rowCountCommited}");
             }
 
-            return result;
         }
 
     }
