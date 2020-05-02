@@ -4,7 +4,7 @@ using System.IO;
 
 namespace PharmITExchange
 {
-    class Program
+    static class Program
     {
         static void Main(string[] args)
         {
@@ -55,8 +55,12 @@ namespace PharmITExchange
                 {
                     var file = new FileInfo(fileName);
                     var backupFile = new FileInfo(backupPath + file.Name);
+
                     if (backupFile.Exists)
+                    {
                         backupFile.Delete();
+                    }
+
                     file.MoveTo(backupPath + file.Name);
                 }
 
@@ -87,7 +91,9 @@ namespace PharmITExchange
         {
             FileInfo settingsFile = new FileInfo(appPath + @"\settings.json");
             if (!settingsFile.Exists)
+            {
                 throw new Exception("File 'settings.json' was not found!");
+            }
 
             var settingsDefinition = new { ApiUrl = "", ApiAuthString = "" };
 

@@ -6,8 +6,8 @@ namespace PharmITExchange
 {
     public class PharmITDataSender
     {
-        private string ApiUrl;
-        private string ApiAuthString;
+        private readonly string ApiUrl;
+        private readonly string ApiAuthString;
 
         public PharmITDataSender(string apiUrl, string apiAuthString)
         {
@@ -65,7 +65,9 @@ namespace PharmITExchange
                 try
                 {
                     if (SendFile(file))
+                    {
                         Logger.Log.Info($"File {file} was sent successfully!");
+                    }
                 }
                 catch (Exception e)
                 {
