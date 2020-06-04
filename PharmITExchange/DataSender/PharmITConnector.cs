@@ -30,13 +30,17 @@ namespace PharmITExchange
             Request.AddHeader("Content-Type", "application/json");
         }
 
-        private string GetFileID(DateTime date)
+        private string GetFileID(DataFile dataFile)
         {
             Client.BaseUrl = new Uri($"{ApiUrl}/loadhistories");
 
             SetRequestHeaders();
             Request.Method = Method.POST;
-            Request.AddJsonBody(new { DateSale = date.ToString("yyyyMMdd") });
+            if (dataFile.Date != DateTime.MinValue)
+                Request.AddJsonBody(new { DateSale = dataFile.Date.ToString("yyyyMMdd") });
+            else
+                Request.AddJsonBody(new { MonthSale = dataFile.Month.ToString("yyyyMM") });
+
             IRestResponse response = Client.Execute(Request);
 
             if (!response.IsSuccessful)
@@ -85,7 +89,8 @@ namespace PharmITExchange
 
         public void SendData(DataFile dataFile)
         {
-            string fileId = GetFileID(dataFile.Date);
+            
+            string fileId = GetFileID(dataFile);
             int rowCount = dataFile.Count;
 
 
