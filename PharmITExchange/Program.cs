@@ -1,6 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 using System.IO;
+using PharmITExchange.Common;
 
 namespace PharmITExchange
 {
@@ -82,8 +83,6 @@ namespace PharmITExchange
                 Logger.Log.Error(e.Message, e);
             }
 
-            //Console.ReadKey();
-
             Logger.Log.Info("End application");
         }
 
@@ -92,7 +91,7 @@ namespace PharmITExchange
             FileInfo settingsFile = new FileInfo(appPath + @"\settings.json");
             if (!settingsFile.Exists)
             {
-                throw new Exception("File 'settings.json' was not found!");
+                throw new PharmITException("File 'settings.json' was not found!");
             }
 
             var settingsDefinition = new { ApiUrl = "", ApiAuthString = "" };
@@ -105,7 +104,7 @@ namespace PharmITExchange
 
                 if (settings is null)
                 {
-                    throw new Exception("Settings was not found!");
+                    throw new PharmITException("Settings was not found!");
                 }
 
                 apiUrl = settings.ApiUrl;

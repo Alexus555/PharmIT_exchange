@@ -1,6 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 using System.IO;
+using PharmITExchange.Common;
 
 namespace PharmITExchange
 {
@@ -34,7 +35,7 @@ namespace PharmITExchange
 
                 if (dataFile is null)
                 {
-                    throw new Exception("No data in file");
+                    throw new PharmITException("No data in file");
                 }
 
                 PharmITConnector connector = new PharmITConnector(ApiUrl, ApiAuthString);

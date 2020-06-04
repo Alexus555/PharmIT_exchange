@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using PharmITExchange.Common;
 using RestSharp;
 
 namespace PharmITExchange
@@ -45,7 +46,7 @@ namespace PharmITExchange
 
             if (!response.IsSuccessful)
             {
-                throw new Exception($"{(int)response.StatusCode} - {response.StatusDescription}");
+                throw new PharmITException($"{(int)response.StatusCode} - {response.StatusDescription}");
             }
 
             Logger.Log.Info($"Response Content: {response.Content}");
@@ -64,7 +65,7 @@ namespace PharmITExchange
 
             if (!response.IsSuccessful)
             {
-                throw new Exception($"{(int)response.StatusCode} - {response.StatusDescription}");
+                throw new PharmITException($"{(int)response.StatusCode} - {response.StatusDescription}");
             }
 
             Logger.Log.Info($"Data was sent successfully!");
@@ -79,7 +80,7 @@ namespace PharmITExchange
 
             if (!response.IsSuccessful)
             {
-                throw new Exception($"{(int)response.StatusCode} - {response.StatusDescription}");
+                throw new PharmITException($"{(int)response.StatusCode} - {response.StatusDescription}");
             }
 
             Logger.Log.Info($"Missed data was received successfully!");
@@ -120,7 +121,7 @@ namespace PharmITExchange
 
             if (!response.IsSuccessful)
             {
-                throw new Exception($"{(int)response.StatusCode} - {response.StatusDescription}");
+                throw new PharmITException($"{(int)response.StatusCode} - {response.StatusDescription}");
             }
 
             int rowCountCommited = 0;
